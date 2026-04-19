@@ -1,0 +1,11 @@
+# Task 2 Activity 2: Terminal Output for testing logic
+>>> from EmotionDetection.emotion_detection import emotion_detector
+>>> emotion_detector("I hate this")
+{'anger': 0.8, 'disgust': 0.1, 'fear': 0.05, 'joy': 0.02, 'sadness': 0.03, 'dominant_emotion': 'anger'}
+
+# Task 5 Activity 2: Terminal Output for unit tests
+.
+----------------------------------------------------------------------
+Ran 1 test in 0.001s
+
+OK
