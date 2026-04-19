@@ -32,7 +32,7 @@
             fetch(`/emotionDetector?textToAnalyze=${encodeURIComponent(text)}`)
                 .then(res => res.text())
                 .then(data => {
-                    responseDiv.innerText = data;
+                    responseDiv.innerHTML = data;
                 })
                 .catch(err => {
                     responseDiv.innerText = "Error analyzing text.";

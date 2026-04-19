@@ -1,6 +1,3 @@
-"""
-Server module for the Emotion Detector application.
-"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -12,13 +9,17 @@ def sent_analyzer():
     Analyzes the text from the UI and returns emotion scores.
     """
     text_to_analyze = request.args.get('textToAnalyze')
-    response = emotion_detector(text_to_analyze)
-    
-    # Task 7: Handling blank input or invalid text
-    if response['dominant_emotion'] is None:
+
+    # Handle blank input first
+    if not text_to_analyze or text_to_analyze.strip() == "":
         return "Invalid text! Please try again!"
 
-    # Formatting output for Task 3
+    response = emotion_detector(text_to_analyze)
+
+    # Safe handling of the response
+    if not response or response.get('dominant_emotion') is None:
+        return "Invalid text! Please try again!"
+
     return (
         f"For the given statement, the system response is "
         f"'anger': {response['anger']}, 'disgust': {response['disgust']}, "
@@ -35,4 +36,4 @@ def render_index_page():
     return render_template('index.html')
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5001)
