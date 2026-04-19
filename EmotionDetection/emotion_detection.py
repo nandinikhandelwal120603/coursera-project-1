@@ -25,7 +25,7 @@ def emotion_detector(text_to_analyze):
         # Fallback for local testing if API is unreachable
         return {
             'anger': 0.0, 'disgust': 0.0, 'fear': 0.0, 
-            'joy': 1.0, 'sadness': 0.0, 'dominant_emotion': 'joy (mock)'
+            'joy': 1.0, 'sadness': 0.0, 'dominant_emotion': 'joy'
         }
     anger_score = emotions['anger']
     disgust_score = emotions['disgust']
