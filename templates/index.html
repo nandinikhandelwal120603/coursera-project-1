@@ -29,6 +29,8 @@
             const text = document.getElementById('textInput').value;
             const responseDiv = document.getElementById('response');
             
+            responseDiv.innerHTML = "<i>Analyzing...</i>";
+            
             fetch(`/emotionDetector?textToAnalyze=${encodeURIComponent(text)}`)
                 .then(res => res.text())
                 .then(data => {

@@ -10,7 +10,7 @@ def emotion_detector(text_to_analyze):
     myobj = { "raw_document": { "text": text_to_analyze } }
     
     try:
-        response = requests.post(url, json=myobj, headers=header)
+        response = requests.post(url, json=myobj, headers=header, timeout=5)
         
         # Task 7: Handling status code 400
         if response.status_code == 400:
