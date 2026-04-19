@@ -10,23 +10,30 @@ def sent_analyzer():
     """
     text_to_analyze = request.args.get('textToAnalyze')
 
-    # Handle blank input first
+    # ✅ 1. Handle empty input
     if not text_to_analyze or text_to_analyze.strip() == "":
         return "Invalid text! Please try again!"
 
-    response = emotion_detector(text_to_analyze)
+    try:
+        response = emotion_detector(text_to_analyze)
 
-    # Safe handling of the response
-    if not response or response.get('dominant_emotion') is None:
-        return "Invalid text! Please try again!"
+        # ✅ 2. Handle API returning invalid/None values
+        if not response or response.get('dominant_emotion') is None:
+            return "Invalid text! Please try again!"
 
-    return (
-        f"For the given statement, the system response is "
-        f"'anger': {response['anger']}, 'disgust': {response['disgust']}, "
-        f"'fear': {response['fear']}, 'joy': {response['joy']} and "
-        f"'sadness': {response['sadness']}. The dominant emotion is "
-        f"<b>{response['dominant_emotion']}</b>."
-    )
+        # ✅ 3. Normal response
+        return (
+            f"For the given statement, the system response is "
+            f"'anger': {response['anger']}, 'disgust': {response['disgust']}, "
+            f"'fear': {response['fear']}, 'joy': {response['joy']} and "
+            f"'sadness': {response['sadness']}. The dominant emotion is "
+            f"<b>{response['dominant_emotion']}</b>."
+        )
+
+    except Exception as e:
+        # ✅ 4. Catch unexpected errors (API down, crash, etc.)
+        return "Error occurred while processing the request. Please try again later."
+
 
 @app.route("/")
 def render_index_page():
@@ -35,5 +42,6 @@ def render_index_page():
     """
     return render_template('index.html')
 
+
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5001)
+    app.run(host="0.0.0.0", port=5006)
