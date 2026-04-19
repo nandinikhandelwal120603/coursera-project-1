@@ -1,3 +1,6 @@
+"""
+Server module for the Emotion Detector application.
+"""
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -10,18 +13,18 @@ def sent_analyzer():
     """
     text_to_analyze = request.args.get('textToAnalyze')
 
-    # ✅ 1. Handle empty input
+    # Handle empty input
     if not text_to_analyze or text_to_analyze.strip() == "":
         return "Invalid text! Please try again!"
 
     try:
         response = emotion_detector(text_to_analyze)
 
-        # ✅ 2. Handle API returning invalid/None values
+        # Handle API returning invalid/None values
         if not response or response.get('dominant_emotion') is None:
             return "Invalid text! Please try again!"
 
-        # ✅ 3. Normal response
+        # Normal response
         return (
             f"For the given statement, the system response is "
             f"'anger': {response['anger']}, 'disgust': {response['disgust']}, "
@@ -30,10 +33,9 @@ def sent_analyzer():
             f"<b>{response['dominant_emotion']}</b>."
         )
 
-    except Exception as e:
-        # ✅ 4. Catch unexpected errors (API down, crash, etc.)
+    except (ValueError, KeyError, TypeError):
+        # Catch specific processing errors
         return "Error occurred while processing the request. Please try again later."
-
 
 @app.route("/")
 def render_index_page():
@@ -41,7 +43,6 @@ def render_index_page():
     Renders the main application page.
     """
     return render_template('index.html')
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5006)
